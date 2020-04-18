@@ -10,10 +10,14 @@ using Cinemachine;
 [RequireComponent(typeof(Animator))]
 public class BotIKThrowTestController : MonoBehaviour
 {
+    public float cosLowerLimit;
     public GameObject prefab;
     public Transform mainCamera;
     public GameObject aimingCamera;
     public GameObject cameraTargetGroup;
+    public GameObject targetMarkerPrefab;
+    public Transform canvas;
+    private GameObject targetMarker = null;
     private BotIKController ikController;
     private BotIKCatchController ikCatchController;
     private BotIKDeflectController ikDeflectController;
@@ -63,6 +67,37 @@ public class BotIKThrowTestController : MonoBehaviour
                 target = GetNextTarget(false);
                 cameraTargetGroup.GetComponent<CinemachineTargetGroup>().m_Targets[1].target = target;
             }
+
+            if(Input.GetKeyDown(KeyCode.W)){
+                // Compare target to list of GetTargets() and find next left one and set to target
+                //TODO
+                //target = GetNextTarget();
+                cameraTargetGroup.GetComponent<CinemachineTargetGroup>().m_Targets[1].target = target;
+            }
+            if(Input.GetKeyDown(KeyCode.S)){
+                // Compare target to list of GetTargets() and find next right one and set to target
+                //TODO
+                //target = GetNextTarget(false);
+                cameraTargetGroup.GetComponent<CinemachineTargetGroup>().m_Targets[1].target = target;
+            }
+
+            // Update target marker
+            if(targetMarker == null){
+                targetMarker = Instantiate(targetMarkerPrefab);
+                targetMarker.transform.SetParent(canvas, false);
+            }
+
+            // Positioning a UI element over a world-space object
+            //   https://forum.unity.com/threads/create-ui-health-markers-like-in-world-of-tanks.432935/
+            // With an offset
+            //   https://forum.unity.com/threads/get-ui-placed-right-over-gameobjects-head.489464/
+            Vector2 screenPoint = Camera.main.WorldToScreenPoint(target.transform.position);
+            targetMarker.transform.position = screenPoint;
+        } else {
+            if(targetMarker != null){
+                Destroy(targetMarker);
+                targetMarker = null;
+            }
         }
 
         if(Input.GetMouseButtonDown(1)){
@@ -72,18 +107,20 @@ public class BotIKThrowTestController : MonoBehaviour
 			GameObject throwable = Instantiate(prefab, ballPos, Quaternion.identity);
         }
     }
+    private void SetTarget(Transform target){
+        this.target = target;
+        cameraTargetGroup.GetComponent<CinemachineTargetGroup>().m_Targets[1].target = this.target;
+
+        //TODO setup target marker on canvas over target
+    }
     private Transform GetNextTarget(bool left=true){
         Vector3 targetDiff = target.position - mainCamera.position;
-        float targetSin = Vector3.Cross(targetDiff.normalized, mainCamera.forward).magnitude;
+        float targetSin = Vector3.Cross(targetDiff.normalized, mainCamera.forward).y;
         Transform nextTarget = null;
         float nextTargetSin = 0.0f;
         foreach(Transform transf in GetValidTargets(mainCamera.position, mainCamera.forward)){
-            if(transf == target){
-                continue;
-            }
             Vector3 tmpDiff = transf.position - mainCamera.position;
             float sin = Vector3.Cross(tmpDiff.normalized, mainCamera.forward).y;
-
             bool betterThanOriginal = left ? sin > targetSin : sin < targetSin;
             bool betterThanNext = nextTarget == null || (left ? sin < nextTargetSin : sin > nextTargetSin);
             if(betterThanOriginal && betterThanNext){
@@ -101,7 +138,7 @@ public class BotIKThrowTestController : MonoBehaviour
         foreach(Transform transf in GetTargets()){
             Vector3 diff = transf.position - position;
             float dir = Vector3.Dot(diff.normalized, forward);
-            if(dir > 0.5 && dir > largestDir){
+            if(dir > cosLowerLimit && dir > largestDir){
                 target = transf;
                 largestDir = dir;
             }
@@ -114,7 +151,7 @@ public class BotIKThrowTestController : MonoBehaviour
         foreach(Transform transf in GetTargets()){
             Vector3 diff = transf.position - position;
             float dir = Vector3.Dot(diff.normalized, forward);
-            if(dir > 0.5){
+            if(dir > cosLowerLimit){
                 targets.Add(transf);
             }
         }

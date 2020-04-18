@@ -8,7 +8,7 @@ using UnityEngine;
 [RequireComponent(typeof(Animator))]
 public class BotIKThrowController : MonoBehaviour
 {
-    public Vector3 throwForce;
+    public float throwForce;
 
     private BotIKController ikController;
     private BotIKCatchController ikCatchController;
@@ -48,7 +48,7 @@ public class BotIKThrowController : MonoBehaviour
             Transform rHand = animator.GetBoneTransform(HumanBodyBones.RightHand);
             towards = Quaternion.LookRotation(target.position - rHand.position);
         }
-        rb.AddForce(towards * throwForce, ForceMode.Impulse);
+        rb.AddForce(towards * new Vector3(0.0f, 0.0f, throwForce), ForceMode.Impulse);
 
         ikCatchController.caughtBall = null;
     }
