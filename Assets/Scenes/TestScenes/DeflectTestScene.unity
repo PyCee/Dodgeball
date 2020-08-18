@@ -188,6 +188,26 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 5474930067995027729, guid: 9c2fbea784d26b84191b50e4c3a8a826,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.061600544
+      objectReference: {fileID: 0}
+    - target: {fileID: 5474930067995027729, guid: 9c2fbea784d26b84191b50e4c3a8a826,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.8616552
+      objectReference: {fileID: 0}
+    - target: {fileID: 5474930067995027729, guid: 9c2fbea784d26b84191b50e4c3a8a826,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.107870914
+      objectReference: {fileID: 0}
+    - target: {fileID: 5474930067995027729, guid: 9c2fbea784d26b84191b50e4c3a8a826,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.49205655
+      objectReference: {fileID: 0}
     - target: {fileID: 5474930068665770992, guid: 9c2fbea784d26b84191b50e4c3a8a826,
         type: 3}
       propertyPath: m_Name
@@ -261,17 +281,22 @@ PrefabInstance:
     - target: {fileID: 5474930069183126599, guid: 9c2fbea784d26b84191b50e4c3a8a826,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.070517205
+      value: 0.07051721
       objectReference: {fileID: 0}
     - target: {fileID: 5474930069183126599, guid: 9c2fbea784d26b84191b50e4c3a8a826,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.123484746
+      value: 0.12348476
       objectReference: {fileID: 0}
     - target: {fileID: 5474930069183126599, guid: 9c2fbea784d26b84191b50e4c3a8a826,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.490858
+      value: 0.49085796
+      objectReference: {fileID: 0}
+    - target: {fileID: 5474930069183126599, guid: 9c2fbea784d26b84191b50e4c3a8a826,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.8595565
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9c2fbea784d26b84191b50e4c3a8a826, type: 3}
@@ -652,3 +677,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b2087e5c62289f6408308fad496cdd19, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ballPrefab: {fileID: 681760822891161751, guid: ba8e06729bab11845887c01025eaa668,
+    type: 3}

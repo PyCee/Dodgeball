@@ -513,6 +513,9 @@ GameObject:
   - component: {fileID: 114123983191623694}
   - component: {fileID: 114262377368137214}
   - component: {fileID: 114567688614478580}
+  - component: {fileID: 8987907200000386666}
+  - component: {fileID: 114112892708017444}
+  - component: {fileID: 143602803465933350}
   m_Layer: 0
   m_Name: xbot
   m_TagString: Untagged
@@ -641,6 +644,60 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   throwForce: 30
+  cosLowerLimit: 0.5
+  mainCamera: {fileID: 0}
+--- !u!114 &8987907200000386666
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8279015527692317920}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5971a00e1c7afe041a1b0b4ce35cc654, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 2
+  strafeSpeed: 0
+  backpedalSpeed: 0
+  rotationSpeed: 75
+--- !u!114 &114112892708017444
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8279015527692317920}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 42b5fa2d514396e41a36bc399e4e3cb8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetMarkerPrefab: {fileID: 3300017788462082375, guid: a2741285e869e724a9d2ab4b95447d5b,
+    type: 3}
+  aimingCamera: {fileID: 0}
+  aimingCameraTargetGroup: {fileID: 0}
+  canvas: {fileID: 0}
+  lastTarget: {fileID: 0}
+--- !u!143 &143602803465933350
+CharacterController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8279015527692317920}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Height: 2
+  m_Radius: 0.3
+  m_SlopeLimit: 1
+  m_StepOffset: 0.03
+  m_SkinWidth: 0.001
+  m_MinMoveDistance: 0.01
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!1 &8279015527692317922
 GameObject:
   m_ObjectHideFlags: 0

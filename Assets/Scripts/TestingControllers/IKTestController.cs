@@ -2,17 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(BotIKController))]
-public class BotIKTestController : MonoBehaviour
+[RequireComponent(typeof(IKController))]
+public class IKTestController : MonoBehaviour
 {
 	public Transform rightHandBall;
 	public Transform leftFootBall;
 
 	AvatarIKGoal[] enabledIKGoals = {AvatarIKGoal.RightHand, AvatarIKGoal.LeftFoot};
-	private BotIKController ikController;
+	private IKController ikController;
     void Start()
     {
-        ikController = GetComponent<BotIKController>();
+        ikController = GetComponent<IKController>();
 		ikController.setIKActive(true, enabledIKGoals);
 		ikController.setLookAt(rightHandBall);
 		

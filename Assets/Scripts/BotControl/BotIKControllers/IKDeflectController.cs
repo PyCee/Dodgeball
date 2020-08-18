@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(BotIKCatchController))]
+[RequireComponent(typeof(IKCatchController))]
 [RequireComponent(typeof(Animator))]
-public class BotIKDeflectController : MonoBehaviour
+public class IKDeflectController : MonoBehaviour
 {
     private Animator animator;
-	private BotIKCatchController ikCatchController;
+	private IKCatchController ikCatchController;
 	private bool deflectActive = false;
 
     public Vector3 defaultHoldOffset;
@@ -20,7 +20,7 @@ public class BotIKDeflectController : MonoBehaviour
     void Start()
     {
         animator = GetComponent<Animator>();
-        ikCatchController = GetComponent<BotIKCatchController>();
+        ikCatchController = GetComponent<IKCatchController>();
     }
 	
     void Update()
@@ -57,7 +57,7 @@ public class BotIKDeflectController : MonoBehaviour
 
             Vector3 holdPosition = bone.position + chestOffset;
 
-            // TODO: move ball to position over time
+            // TODO: move ball to position over time (dotween?)
             Vector3 ballDisplacementDir = holdPosition - ikCatchController.caughtBall.position;
             Vector3 intermediatePosition = ikCatchController.caughtBall.position + ballDisplacementDir * ballMoveSpeed * Time.deltaTime;
             ikCatchController.caughtBall.position = intermediatePosition;

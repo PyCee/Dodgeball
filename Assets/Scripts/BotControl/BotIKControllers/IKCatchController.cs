@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Animator))]
-[RequireComponent(typeof(BotIKController))]
-public class BotIKCatchController : MonoBehaviour
+[RequireComponent(typeof(IKController))]
+public class IKCatchController : MonoBehaviour
 {
 	public float stopSpeed;
 	public Transform caughtBall = null;
@@ -19,7 +19,7 @@ public class BotIKCatchController : MonoBehaviour
 	public float minCatchDistance;
 
 	AvatarIKGoal[] enabledIKGoals = {AvatarIKGoal.RightHand, AvatarIKGoal.LeftHand};
-	private BotIKController ikController;
+	private IKController ikController;
 	private int lastBallID = -1;
 	private Animator animator;
 	private bool catchActive = false;
@@ -37,13 +37,13 @@ public class BotIKCatchController : MonoBehaviour
     void Start()
     {
         animator = GetComponent<Animator>();
-        ikController = GetComponent<BotIKController>();
+        ikController = GetComponent<IKController>();
 		ikController.setIKActive(false, enabledIKGoals);
     }
 
     void FixedUpdate()
     {
-		// TODOTODOTODO: when aiming at thigh, the ball will be caught, but ik is disabled. Fix
+		// TODO: when aiming at thigh, the ball will be caught, but ik is disabled. Fix
 		if(catchActive && !hasCaughtBall()){
 			// Scan for catchable ball
 			ArrayList balls = findNearbyBalls();
@@ -65,43 +65,29 @@ public class BotIKCatchController : MonoBehaviour
 				}
 				if(ikController.areLimbsOnTargets()){
 					// If the hands are on the ball
-					Rigidbody rb = ball.GetComponent<Rigidbody>();
-					
-					// Slowing down the ball is slow, just catch it immediatly and apply impulse while controlling it
-					caughtBall = ball.transform;
-					
-					Transform hipBone = animator.GetBoneTransform(HumanBodyBones.Hips);
-					caughtBall.SetParent(hipBone);
-					rb.velocity = Vector3.zero;
-					rb.isKinematic = true;
-					/*	
-					if(rb.velocity.magnitude <= stopSpeed){
-						// If ball is not moving, ball has been caught
-						caughtBall = ball.transform;
-						
-						Transform hipBone = animator.GetBoneTransform(HumanBodyBones.Hips);
-						caughtBall.SetParent(hipBone);
-						rb.velocity = Vector3.zero;
-						rb.isKinematic = true;
-					} else{
-						// Otherwise, slow it down
-						Vector3 diff = ball.transform.position - transform.position;
-						diff.y = 0.0f;
-						float dist = diff.magnitude;
-						float velocityMultiplier = (dist - minCatchDistance) / 
-												(reach - minCatchDistance);
-						if(dist < minCatchDistance){
-							velocityMultiplier = 0.0f;
-						}
-						velocityMultiplier = Mathf.Min(1.0f, velocityMultiplier);
-						velocityMultiplier = Mathf.Max(0.0f, velocityMultiplier);
-						rb.velocity *= velocityMultiplier;
-					}
-					*/
+					CatchBall(ball.transform);
 				}
 			}
 		}
     }
+	public void CatchBall(Transform ball){
+		caughtBall = ball;
+		
+		Transform hipBone = animator.GetBoneTransform(HumanBodyBones.Hips);
+		caughtBall.SetParent(hipBone);
+		
+		Rigidbody rb = ball.GetComponent<Rigidbody>();
+		rb.velocity = Vector3.zero;
+		rb.isKinematic = true;
+	}
+	public void ReleaseCaughtBall(){
+		// Release ball from bot
+        caughtBall.SetParent(null);
+        Rigidbody rb = caughtBall.GetComponent<Rigidbody>();
+        rb.isKinematic = false;
+
+        caughtBall = null;
+	}
 	
 	public ArrayList findNearbyBalls(){
 		// returns an arraylist of gameobjects in order of ball catchableness

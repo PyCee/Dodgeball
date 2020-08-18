@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(BotIKCatchController))]
-public class BotIKCatchTestController : MonoBehaviour
+[RequireComponent(typeof(IKCatchController))]
+public class IKCatchTestController : MonoBehaviour
 {
 	AvatarIKGoal[] enabledIKGoals = {AvatarIKGoal.RightHand};
-	private BotIKCatchController catchController;
+	private IKCatchController catchController;
     void Start()
     {
-        catchController = GetComponent<BotIKCatchController>();
+        catchController = GetComponent<IKCatchController>();
 		catchController.setActive(true);
     }
     void Update()

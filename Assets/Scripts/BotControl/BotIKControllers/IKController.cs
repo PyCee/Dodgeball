@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Animator))]
-public class BotIKController : MonoBehaviour
+public class IKController : MonoBehaviour
 {
 	public Transform rightHandObj;
 	public Transform leftHandObj;
