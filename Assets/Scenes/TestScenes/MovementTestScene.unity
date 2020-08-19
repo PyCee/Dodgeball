@@ -236,7 +236,7 @@ Transform:
   m_PrefabInstance: {fileID: 3549633847655610875}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 76484240}
-  m_LocalRotation: {x: -0.018166054, y: 0.05073833, z: 0.00092304713, w: 0.99854636}
+  m_LocalRotation: {x: -0.018166054, y: 0.05073833, z: 0.00092304725, w: 0.99854636}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -601,7 +601,7 @@ Transform:
   m_PrefabInstance: {fileID: 3549633847655610875}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 682283586}
-  m_LocalRotation: {x: -0.0072344216, y: 0.04729629, z: 0.00034257837, w: 0.99885464}
+  m_LocalRotation: {x: -0.0072341296, y: 0.04813832, z: 0.0003486769, w: 0.99881446}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -1864,6 +1864,21 @@ PrefabInstance:
       propertyPath: m_Offset.y
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 114112892708017444, guid: c639df22d363ca549b0ac60339abd830,
+        type: 3}
+      propertyPath: aimingCamera
+      value: 
+      objectReference: {fileID: 1954918525}
+    - target: {fileID: 114112892708017444, guid: c639df22d363ca549b0ac60339abd830,
+        type: 3}
+      propertyPath: aimingCameraTargetGroup
+      value: 
+      objectReference: {fileID: 851301957}
+    - target: {fileID: 114112892708017444, guid: c639df22d363ca549b0ac60339abd830,
+        type: 3}
+      propertyPath: canvas
+      value: 
+      objectReference: {fileID: 70832256}
     - target: {fileID: 114262377368137214, guid: c639df22d363ca549b0ac60339abd830,
         type: 3}
       propertyPath: holdDistance

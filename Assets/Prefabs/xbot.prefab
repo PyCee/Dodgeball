@@ -643,7 +643,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b278e4c563e835c4ea11fd128a00a880, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  throwForce: 30
+  throwSpeed: 25
   cosLowerLimit: 0.5
   mainCamera: {fileID: 0}
 --- !u!114 &8987907200000386666
@@ -679,7 +679,6 @@ MonoBehaviour:
   aimingCamera: {fileID: 0}
   aimingCameraTargetGroup: {fileID: 0}
   canvas: {fileID: 0}
-  lastTarget: {fileID: 0}
 --- !u!143 &143602803465933350
 CharacterController:
   m_ObjectHideFlags: 0

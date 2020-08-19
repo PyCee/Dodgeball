@@ -10,13 +10,18 @@ using Cinemachine;
 [RequireComponent(typeof(Animator))]
 public class IKThrowController : MonoBehaviour
 {
-    public float throwForce;
+    public float throwSpeed;
     public float cosLowerLimit;
     public Transform mainCamera;
 
-    // TODO: implement curve from various directions
-    // https://en.wikipedia.org/wiki/B%C3%A9zier_curve
-    // base time on length of curve ans speed
+    public enum ThrowPathState {
+        Straight,
+        CurveFromRight,
+        CurveFromLeft,
+        CurveFromAbove
+    };
+    private ThrowPathState throwPathState = ThrowPathState.Straight;
+    public void SetThrowPathState(ThrowPathState t){throwPathState = t;}
 
     public enum ThrowState {
         None,
@@ -75,7 +80,37 @@ public class IKThrowController : MonoBehaviour
         Transform thrownBall = ikCatchController.caughtBall;
         ikCatchController.ReleaseCaughtBall();
         
-        thrownBall.GetComponent<Rigidbody>().AddForce(towards * new Vector3(0.0f, 0.0f, throwForce), ForceMode.Impulse);
+
+        ThrownController ballThrownController = thrownBall.gameObject.AddComponent<ThrownController>() as ThrownController;
+        
+        Vector3 beginningPoint = thrownBall.position;
+        Vector3 endPoint = target.position;
+        Vector3 direction = endPoint - beginningPoint;
+        Vector3 tmpPoint = beginningPoint + direction * 0.9f;
+        Vector3 controlPoint;
+        ThrowPath throwPath = null;
+        switch(throwPathState){
+            case ThrowPathState.Straight:
+                throwPath = new StraightPath(beginningPoint, endPoint, throwSpeed);
+                break;
+            case ThrowPathState.CurveFromRight:
+                controlPoint = tmpPoint + (Quaternion.AngleAxis(-90.0f, direction.normalized) * Vector3.up * 3);
+                throwPath = new CurvePath(beginningPoint, controlPoint, endPoint, throwSpeed);
+                break;
+            case ThrowPathState.CurveFromLeft:
+                controlPoint = tmpPoint + (Quaternion.AngleAxis(90.0f, direction.normalized) * Vector3.up * 3);
+                throwPath = new CurvePath(beginningPoint, controlPoint, endPoint, throwSpeed);
+                break;
+            case ThrowPathState.CurveFromAbove:
+                controlPoint = tmpPoint + (Quaternion.AngleAxis(0.0f, direction.normalized) * Vector3.up * 3);
+                throwPath = new CurvePath(beginningPoint, controlPoint, endPoint, throwSpeed);
+                break;
+            default:
+                print("Unrecognized ThrowPathState");
+                break;
+        }
+        ballThrownController.SetThrowPath(throwPath);
+
         RemoveTarget();
 
         throwState = ThrowState.None;

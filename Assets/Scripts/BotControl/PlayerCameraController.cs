@@ -32,7 +32,7 @@ public class PlayerCameraController : MonoBehaviour
         Transform currTarget = iKThrowController.GetTarget();
 
         if(lastTarget != currTarget){
-            if(Array.IndexOf(aimingCameraTargetGroup.m_Targets,lastTarget) > -1){
+            if(aimingCameraTargetGroup.m_Targets.Length > 1){
                 aimingCameraTargetGroup.RemoveMember(lastTarget);
             }
             aimingCameraTargetGroup.AddMember(currTarget, 1.5f, 1.0f);

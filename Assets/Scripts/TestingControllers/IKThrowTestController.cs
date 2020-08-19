@@ -36,6 +36,8 @@ public class IKThrowTestController : MonoBehaviour
         playerCameraController = GetComponent<PlayerCameraController>();
 
         animator = GetComponent<Animator>();
+
+        
     }
     void Update()
     {
@@ -43,6 +45,7 @@ public class IKThrowTestController : MonoBehaviour
             ikThrowController.GetThrowState() == IKThrowController.ThrowState.None &&
             ikCatchController.hasCaughtBall()){
             ikThrowController.StartAim();
+            ikThrowController.SetThrowPathState(IKThrowController.ThrowPathState.Straight);
             playerCameraController.UseAimCamera();
         } else if(Input.GetMouseButtonUp(0) && ikThrowController.IsAiming()){
             // Throw a ball if the bot has one
@@ -63,6 +66,18 @@ public class IKThrowTestController : MonoBehaviour
             }
             if(Input.GetKeyDown(KeyCode.S)){
                 //target = GetNextTarget(false);
+            }
+            if(Input.GetKeyDown(KeyCode.Q)){
+                ikThrowController.SetThrowPathState(IKThrowController.ThrowPathState.Straight);
+            }
+            if(Input.GetKeyDown(KeyCode.E)){
+                ikThrowController.SetThrowPathState(IKThrowController.ThrowPathState.CurveFromLeft);
+            }
+            if(Input.GetKeyDown(KeyCode.R)){
+                ikThrowController.SetThrowPathState(IKThrowController.ThrowPathState.CurveFromAbove);
+            }
+            if(Input.GetKeyDown(KeyCode.F)){
+                ikThrowController.SetThrowPathState(IKThrowController.ThrowPathState.CurveFromRight);
             }
         }
 
