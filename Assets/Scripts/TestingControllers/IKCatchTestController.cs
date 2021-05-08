@@ -14,6 +14,5 @@ public class IKCatchTestController : MonoBehaviour
     }
     void Update()
     {
-	
     }
 }

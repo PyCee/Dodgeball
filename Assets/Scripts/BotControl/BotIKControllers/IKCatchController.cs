@@ -24,13 +24,13 @@ public class IKCatchController : MonoBehaviour
 	private Animator animator;
 	private bool catchActive = false;
 	
-	public bool hasCaughtBall(){
+	public bool HasCaughtBall(){
 		return caughtBall != null;
 	}
 	public void setActive(bool active){
 		catchActive = active;
 	}
-	private float getMaxCatchDistance(){
+	private float GetMaxCatchDistance(){
 		return reach + reachAwareness;
 	}
 	
@@ -44,9 +44,9 @@ public class IKCatchController : MonoBehaviour
     void FixedUpdate()
     {
 		// TODO: when aiming at thigh, the ball will be caught, but ik is disabled. Fix
-		if(catchActive && !hasCaughtBall()){
+		if(catchActive && !HasCaughtBall()){
 			// Scan for catchable ball
-			ArrayList balls = findNearbyBalls();
+			ArrayList balls = FindNearbyBalls();
 			if(balls.Count == 0){
 				ikController.fullReset(enabledIKGoals);
 				lastBallID = -1;
@@ -89,11 +89,11 @@ public class IKCatchController : MonoBehaviour
         caughtBall = null;
 	}
 	
-	public ArrayList findNearbyBalls(){
+	public ArrayList FindNearbyBalls(){
 		// returns an arraylist of gameobjects in order of ball catchableness
 		ArrayList nearbyBalls = new ArrayList();
 		foreach(GameObject gameObj in GameObject.FindGameObjectsWithTag("Ball")){
-			float currCatchableness = getBallCatchableness(gameObj.transform.position);
+			float currCatchableness = GetBallCatchableness(gameObj.transform.position);
 			
 			//print("Ball:");
 			//print("Position: " + gameObj.transform.position.ToString());
@@ -103,7 +103,7 @@ public class IKCatchController : MonoBehaviour
 				bool added = false;
 				for(int i = 0; i < nearbyBalls.Count; ++i){
 					GameObject listBall = (GameObject) nearbyBalls[i];
-					if(currCatchableness > getBallCatchableness(listBall.transform.position)){
+					if(currCatchableness > GetBallCatchableness(listBall.transform.position)){
 						nearbyBalls.Insert(i, gameObj);
 						added = true;
 						break;
@@ -116,7 +116,7 @@ public class IKCatchController : MonoBehaviour
 		}
 		return nearbyBalls;
 	}
-	private float getBallCatchableness (Vector3 ballPosition)
+	private float GetBallCatchableness (Vector3 ballPosition)
 	{
 		float catchableness = 0.0f;
 		// Do math to see if ball is:
@@ -133,7 +133,7 @@ public class IKCatchController : MonoBehaviour
 		
 		// TODO: mult the distanceViability to make this have a stronger effect in calculation
 		float distance = (ballPosition - chestPosition).magnitude;
-		float distanceViability = 1.0f - (distance / getMaxCatchDistance());
+		float distanceViability = 1.0f - (distance / GetMaxCatchDistance());
 		if(distanceViability < 0.0){
 			distanceViability = 0.0f;
 		}

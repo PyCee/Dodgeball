@@ -29,26 +29,55 @@ public class IKController : MonoBehaviour
 	}
 	private Animator animator;
 	
-	public LimbIKController rArm;
-	public LimbIKController lArm;
-	public LimbIKController rLeg;
-	public LimbIKController lLeg;
+	public IKLimbController rArm;
+	public IKLimbController lArm;
+	public IKLimbController rLeg;
+	public IKLimbController lLeg;
 	
 	void Awake()
 	{
-		rArm = new LimbIKController(AvatarIKGoal.RightHand,
+		rArm = new IKLimbController(AvatarIKGoal.RightHand,
 			handJointAngleOffset, handThickness, startReachDuration, endReachDuration);
-		lArm = new LimbIKController(AvatarIKGoal.LeftHand,
+		lArm = new IKLimbController(AvatarIKGoal.LeftHand,
 			handJointAngleOffset, handThickness, startReachDuration, endReachDuration);
-		rLeg = new LimbIKController(AvatarIKGoal.RightFoot,
+		rLeg = new IKLimbController(AvatarIKGoal.RightFoot,
 			footJointAngleOffset, footThickness, startReachDuration, endReachDuration);
-		lLeg = new LimbIKController(AvatarIKGoal.LeftFoot,
+		lLeg = new IKLimbController(AvatarIKGoal.LeftFoot,
 			footJointAngleOffset, footThickness, startReachDuration, endReachDuration);
 	}
     void Start()
     {
         animator = GetComponent<Animator>();
     }
+	public void setIKActive(bool active, AvatarIKGoal[] ikGoals = null)
+	{
+		if(ikGoals == null){
+			rArm.ikActive = active;
+			lArm.ikActive = active;
+			rLeg.ikActive = active;
+			lLeg.ikActive = active;
+		} else{
+			foreach(AvatarIKGoal ikGoal in ikGoals)
+			{
+				switch(ikGoal){
+					case AvatarIKGoal.RightHand:
+						rArm.ikActive = active;
+						break;
+					case AvatarIKGoal.LeftHand:
+						lArm.ikActive = active;
+						break;
+					case AvatarIKGoal.RightFoot:
+						rLeg.ikActive = active;
+						break;
+					case AvatarIKGoal.LeftFoot:
+						lLeg.ikActive = active;
+						break;
+					default:
+						break;
+				}
+			}
+		}
+	}
 	public void fullReset(AvatarIKGoal[] ikGoals = null)
 	{
 		setLookAt(null);
@@ -87,35 +116,6 @@ public class IKController : MonoBehaviour
 			rLeg.isLimbOnTarget(animator, rightFootObj) &&
 			lLeg.isLimbOnTarget(animator, leftFootObj);
 	}
-	public void setIKActive(bool active, AvatarIKGoal[] ikGoals = null)
-	{
-		if(ikGoals == null){
-			rArm.ikActive = active;
-			lArm.ikActive = active;
-			rLeg.ikActive = active;
-			lLeg.ikActive = active;
-		} else{
-			foreach(AvatarIKGoal ikGoal in ikGoals)
-			{
-				switch(ikGoal){
-					case AvatarIKGoal.RightHand:
-						rArm.ikActive = active;
-						break;
-					case AvatarIKGoal.LeftHand:
-						lArm.ikActive = active;
-						break;
-					case AvatarIKGoal.RightFoot:
-						rLeg.ikActive = active;
-						break;
-					case AvatarIKGoal.LeftFoot:
-						lLeg.ikActive = active;
-						break;
-					default:
-						break;
-				}
-			}
-		}
-	}
 	void OnAnimatorIK(int layerIndex)
     {
 		/*
@@ -141,117 +141,5 @@ public class IKController : MonoBehaviour
 			animator.SetLookAtWeight(0);
 		}
     }
-	public class LimbIKController
-	{
-		private float jointOffsetAngle;
-		private float endEffectorThickness;
-		private float startReachDuration;
-		private float endReachDuration;
-		public bool ikActive;
-		
-		private AvatarIKGoal ikGoal;
-		private HumanBodyBones baseJointBone;
-		private HumanBodyBones endEffectorBone;
-		private float reachProgress = 0.0f;
-		private AvatarIKHint ikHint;
-		private Vector3 ikHintPosition;
-		
-		public LimbIKController(AvatarIKGoal goal,
-			float jointOffset, float effectorThickness, float startDuration,
-			float endDuration)
-		{
-			ikGoal = goal;
-			switch(ikGoal){
-				case AvatarIKGoal.RightHand:
-					baseJointBone = HumanBodyBones.RightLowerArm;
-					endEffectorBone = HumanBodyBones.RightHand;
-					ikHint = AvatarIKHint.RightElbow;
-					break;
-				case AvatarIKGoal.LeftHand:
-					baseJointBone = HumanBodyBones.LeftLowerArm;
-					endEffectorBone = HumanBodyBones.LeftHand;
-					ikHint = AvatarIKHint.LeftElbow;
-					break;
-				case AvatarIKGoal.RightFoot:
-					baseJointBone = HumanBodyBones.RightUpperLeg;
-					endEffectorBone = HumanBodyBones.RightFoot;
-					ikHint = AvatarIKHint.RightKnee;
-					break;
-				case AvatarIKGoal.LeftFoot:
-					baseJointBone = HumanBodyBones.LeftUpperLeg;
-					endEffectorBone = HumanBodyBones.LeftFoot;
-					ikHint = AvatarIKHint.LeftKnee;
-					break;
-				default:
-					break;
-			}
-			jointOffsetAngle = jointOffset;
-			endEffectorThickness = effectorThickness;
-			startReachDuration = startDuration;
-			endReachDuration = endDuration;
-		}
-		public void activeReset()
-		{
-			if(ikActive)
-				reachProgress = 0.0f;
-		}
-		public bool isLimbOnTarget(Animator animator, Transform ball)
-		{
-			if(ikActive){
-				Vector3 handPosition = animator.GetBoneTransform(endEffectorBone).position;
-				float distanceHandBall = (handPosition - ball.position).magnitude;
-				
-				// The 0.01f is for fp-error
-				bool inRange = distanceHandBall <= (getBallGrabRange(ball) + 0.01f);
-				return (reachProgress == 1.0f) && inRange;
-			}
-			return true;
-		}
-		public void setIKHintPosition(Vector3 pos)
-		{
-			ikHintPosition = pos;
-		}
-		public void updateIK(Animator animator, Transform ball)
-		{
-			if(ball != null){
-				if(ikActive) {
-					// LERP weight to reach over time
-					reachProgress += Time.deltaTime / startReachDuration;
-					reachProgress = Mathf.Min(reachProgress, 1.0f);
-				} else {
-					// LERP weight to end reach over time
-					reachProgress -= Time.deltaTime / endReachDuration;
-					reachProgress = Mathf.Max(reachProgress, 0.0f);
-				}
-				
-				animator.SetIKPositionWeight(ikGoal, reachProgress);
-        		animator.SetIKRotationWeight(ikGoal, reachProgress);
-				
-				if (reachProgress != 0.0f){
-					// Offset ik position by ball radius in direction of ball --> hand
-					Transform boneTransform = animator.GetBoneTransform(baseJointBone);
-					Vector3 offset = ball.position - boneTransform.position;
-					offset = Vector3.Normalize(offset);
-					
-					Vector3 objectOffset = offset * getBallGrabRange(ball);
-					Vector3 goalPosition = ball.position - objectOffset;
-		
-					// offsetRot is so the hand is rotated appropriately to hold the ball
-					Quaternion offsetRot = Quaternion.AngleAxis(jointOffsetAngle, Vector3.right);
-					Quaternion goalRotation = Quaternion.LookRotation(offset) * offsetRot;
-		
-        			animator.SetIKPosition(ikGoal, goalPosition);
-        			animator.SetIKRotation(ikGoal, goalRotation);
-					if(ikHintPosition == new Vector3(0.0f, 0.0f, 999.0f)){
-						print("This is to get rid of the warning when we don't use ikHintPosition");
-						print(ikHint);
-					}
-				}
-			}
-		}
-		private float getBallGrabRange(Transform ball)
-		{
-			return (ball.localScale.x * 0.5f) + endEffectorThickness;
-		}
-	}
+	
 }

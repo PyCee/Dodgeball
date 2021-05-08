@@ -23,12 +23,11 @@ public class PlayerCameraController : MonoBehaviour
     void Start()
     {
         iKThrowController = GetComponent<IKThrowController>();
-
         animator = GetComponent<Animator>();
-        aimingCameraTargetGroup.AddMember(animator.GetBoneTransform(HumanBodyBones.Neck), 1, 3);
+        Transform neckTransform = animator.GetBoneTransform(HumanBodyBones.Neck);
+        aimingCameraTargetGroup.AddMember(neckTransform, 1, 3);
     }
     void LateUpdate(){
-        
         Transform currTarget = iKThrowController.GetTarget();
 
         if(lastTarget != currTarget){
@@ -36,11 +35,9 @@ public class PlayerCameraController : MonoBehaviour
                 aimingCameraTargetGroup.RemoveMember(lastTarget);
             }
             aimingCameraTargetGroup.AddMember(currTarget, 1.5f, 1.0f);
-
             lastTarget = currTarget;
         }
         UpdateTargetMarkerPosition();
-        
     }
     public void UseAimCamera(){
         if(targetMarker == null){

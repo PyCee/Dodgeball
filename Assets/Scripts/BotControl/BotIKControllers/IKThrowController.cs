@@ -55,7 +55,7 @@ public class IKThrowController : MonoBehaviour
     public void ReadyThrow(){
         // Ready for throw animation
         
-        Assert.IsTrue(ikCatchController.hasCaughtBall());
+        Assert.IsTrue(ikCatchController.HasCaughtBall());
 
         ikController.setIKActive(false, enabledIKGoals);
         ikCatchController.setActive(false);

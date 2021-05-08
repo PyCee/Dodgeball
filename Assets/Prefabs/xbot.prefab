@@ -509,13 +509,14 @@ GameObject:
   - component: {fileID: 8279015527692413120}
   - component: {fileID: 8279015527701694122}
   - component: {fileID: 136082118312836118}
+  - component: {fileID: 143602803465933350}
   - component: {fileID: 114344610405318046}
   - component: {fileID: 114123983191623694}
   - component: {fileID: 114262377368137214}
   - component: {fileID: 114567688614478580}
   - component: {fileID: 8987907200000386666}
   - component: {fileID: 114112892708017444}
-  - component: {fileID: 143602803465933350}
+  - component: {fileID: 114451398281276622}
   m_Layer: 0
   m_Name: xbot
   m_TagString: Untagged
@@ -573,6 +574,24 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 1, z: 0}
+--- !u!143 &143602803465933350
+CharacterController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8279015527692317920}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Height: 2
+  m_Radius: 0.3
+  m_SlopeLimit: 1
+  m_StepOffset: 0.03
+  m_SkinWidth: 0.01
+  m_MinMoveDistance: 0.01
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!114 &114344610405318046
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -597,6 +616,10 @@ MonoBehaviour:
   endReachDuration: 0.2
   rightArmIKHint: {x: 0, y: 0, z: 0}
   leftArmIKHint: {x: 0, y: 0, z: 0}
+  rArm: {fileID: 0}
+  lArm: {fileID: 0}
+  rLeg: {fileID: 0}
+  lLeg: {fileID: 0}
 --- !u!114 &114123983191623694
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -679,24 +702,19 @@ MonoBehaviour:
   aimingCamera: {fileID: 0}
   aimingCameraTargetGroup: {fileID: 0}
   canvas: {fileID: 0}
---- !u!143 &143602803465933350
-CharacterController:
+--- !u!114 &114451398281276622
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8279015527692317920}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Height: 2
-  m_Radius: 0.3
-  m_SlopeLimit: 1
-  m_StepOffset: 0.03
-  m_SkinWidth: 0.001
-  m_MinMoveDistance: 0.01
-  m_Center: {x: 0, y: 1, z: 0}
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fc5d5554e4b6c141808181246f03d44, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ballIncomingRadius: 10
 --- !u!1 &8279015527692317922
 GameObject:
   m_ObjectHideFlags: 0
@@ -2029,6 +2047,7 @@ SkinnedMeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -2040,6 +2059,7 @@ SkinnedMeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -2161,6 +2181,7 @@ SkinnedMeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -2172,6 +2193,7 @@ SkinnedMeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0

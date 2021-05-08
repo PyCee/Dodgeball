@@ -25,7 +25,7 @@ public class IKDeflectController : MonoBehaviour
 	
     void Update()
     {
-        if(deflectActive && ikCatchController.hasCaughtBall()){
+        if(deflectActive && ikCatchController.HasCaughtBall()){
             // If deflect is active and catch controller has a ball
 
             Transform bone = animator.GetBoneTransform(HumanBodyBones.Chest);
@@ -33,7 +33,7 @@ public class IKDeflectController : MonoBehaviour
             // Set chestOffset to defaultHoldOffset by default
             Vector3 chestOffset = transform.rotation * defaultHoldOffset;
 
-            GameObject[] balls = (GameObject[])ikCatchController.findNearbyBalls().ToArray(typeof(GameObject));
+            GameObject[] balls = (GameObject[])ikCatchController.FindNearbyBalls().ToArray(typeof(GameObject));
             if((balls.Length >= 2)){
                 // If there is a catchable ball
 

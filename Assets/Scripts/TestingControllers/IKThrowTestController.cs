@@ -43,7 +43,7 @@ public class IKThrowTestController : MonoBehaviour
     {
         if(Input.GetMouseButtonDown(0) &&
             ikThrowController.GetThrowState() == IKThrowController.ThrowState.None &&
-            ikCatchController.hasCaughtBall()){
+            ikCatchController.HasCaughtBall()){
             ikThrowController.StartAim();
             ikThrowController.SetThrowPathState(IKThrowController.ThrowPathState.Straight);
             playerCameraController.UseAimCamera();

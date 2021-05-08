@@ -39,7 +39,7 @@ public class MovementTestController : MonoBehaviour
     void Update()
     {
         
-        if(Input.GetMouseButtonDown(0) && ikCatchController.hasCaughtBall()){
+        if(Input.GetMouseButtonDown(0) && ikCatchController.HasCaughtBall()){
             ikThrowController.StartAim();
             
             
